@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'wheat-admin-service',
+      name: 'cover-admin-service',
       script: 'dist/main.js',
       watch: '.'
     }
