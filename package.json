@@ -2,7 +2,6 @@
   "name": "admin-service",
   "version": "0.0.0",
   "description": "",
-  "author": "",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -15,7 +14,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "db:pg": "prisma generate",
-    "db:init": "prisma migrate dev --name init",
+    "db:pm": "prisma migrate dev --name cover-dev",
     "db:ps": "prisma studio",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
