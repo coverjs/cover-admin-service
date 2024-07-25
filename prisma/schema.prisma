@@ -18,7 +18,17 @@ model User {
   email     String?  @unique
   nickname  String?
   salt      String   @default("")
+  posts     Role[]
   enable    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Role {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @map("role_name")
+  userId    Int?
+  user      User?    @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
