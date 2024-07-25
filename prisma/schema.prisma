@@ -17,5 +17,6 @@ model User {
   password String
   email    String? @unique
   nickname String?
+  salt     String  @default("")
   enable   Boolean @default(true)
 }

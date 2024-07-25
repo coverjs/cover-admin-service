@@ -2,6 +2,7 @@ import { Body, Controller } from '@nestjs/common';
 import { AccountService } from './account.service';
 import { AccountDto } from './dto/account.dto';
 import { ApiTags, Method, UniDefine } from 'uni-nest';
+import { AccountLoginVo } from './dto/account.vo';
 
 @ApiTags('账号管理')
 @Controller('account')
@@ -11,12 +12,13 @@ export class AccountController {
   @UniDefine({
     path: 'login',
     method: Method.Post,
-    description: '登录',
+    summary: '登录',
+    isPublic: true,
     body: {
       type: AccountDto
     },
     response: {
-      model: AccountDto
+      type: AccountLoginVo
     }
   })
   create(@Body() createAccountDto: AccountDto) {
