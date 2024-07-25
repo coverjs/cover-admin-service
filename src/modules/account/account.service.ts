@@ -20,6 +20,7 @@ export class AccountService {
         username
       }
     });
+
     console.log(userInfo);
     const token = this.jwtService.sign(userInfo, {
       secret: this.configService.get(JWT_SECRET_ENV_KEY),

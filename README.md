@@ -16,7 +16,7 @@ npm install
 pnpm db:pm
 ```
 
-- 生成Prisma客户端
+- 生成Prisma客户端 首次执行需要确保能访问外网
 
 ```bash
 pnpm db:pg
