@@ -18,10 +18,12 @@ model User {
   email     String?  @unique
   nickname  String?
   salt      String   @default("")
-  posts     Role[]
+  roles     Role[]
   enable    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("co_users")
 }
 
 model Role {
@@ -31,4 +33,6 @@ model Role {
   user      User?    @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("co_roles")
 }

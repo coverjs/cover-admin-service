@@ -1,6 +1,20 @@
 import { ApiProperty } from 'uni-nest';
 
-export class AccountDto {
+export class CurrentUserDto {
+  @ApiProperty({
+    description: '用户id',
+    example: 1
+  })
+  id: number;
+
+  @ApiProperty({
+    description: '用户名',
+    example: 'admin'
+  })
+  username: string;
+}
+
+export class AccountLoginDto {
   @ApiProperty({
     description: '用户名',
     example: 'admin'

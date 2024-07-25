@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { AccountDto } from './dto/account.dto';
+import { AccountLoginDto, CurrentUserDto } from './dto/account.dto';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { JWT_SECRET_ENV_KEY, TOKEN_EXPIRES_ENV_KEY } from '../../constants';
 import { PrismaService } from '../../common/prisma/prisma.service';
 import { encryptPassword } from 'uni-nest';
-import { BusinessException } from '../../exceptions/business.exceptions';
+import { BusinessException } from '../../common/exceptions/business.exceptions';
 
 @Injectable()
 export class AccountService {
@@ -14,22 +14,42 @@ export class AccountService {
     private readonly jwtService: JwtService,
     private readonly prismaService: PrismaService
   ) {}
-  async login(account: AccountDto) {
+
+  /**
+   * 登录
+   * @param account
+   * @returns
+   */
+  async login(account: AccountLoginDto) {
     const { username, password } = account;
     const userInfo = await this.prismaService.user.findUnique({
-      where: {
-        username
-      }
+      where: { username }
     });
 
     if (userInfo && userInfo.password === encryptPassword(password, userInfo.salt)) {
-      const { password, ...res } = userInfo;
-      const token = this.jwtService.sign(res, {
-        secret: this.configService.get(JWT_SECRET_ENV_KEY),
-        expiresIn: this.configService.get(TOKEN_EXPIRES_ENV_KEY)
-      });
+      const { id, username } = userInfo;
+      const token = this.jwtService.sign(
+        { id, username },
+        {
+          secret: this.configService.get(JWT_SECRET_ENV_KEY),
+          expiresIn: this.configService.get(TOKEN_EXPIRES_ENV_KEY)
+        }
+      );
       return { token };
     }
     BusinessException.throwUsernameOrPasswordIncorrect();
+  }
+
+  /**
+   * 获取当前用户信息
+   * @param user
+   * @returns
+   */
+  async getCurrentUser(user: CurrentUserDto) {
+    const { id } = user;
+    const userInfo = await this.prismaService.user.findUnique({
+      where: { id }
+    });
+    return userInfo;
   }
 }
