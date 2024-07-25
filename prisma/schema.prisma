@@ -7,16 +7,18 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  username String  @unique
-  password String
-  email    String? @unique
-  nickname String?
-  salt     String  @default("")
-  enable   Boolean @default(true)
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  email     String?  @unique
+  nickname  String?
+  salt      String   @default("")
+  enable    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
