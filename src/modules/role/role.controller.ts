@@ -5,7 +5,7 @@ import { UpdateRoleDto } from './dto/update-role.dto';
 import { ApiTags, Method, UniDefine } from 'uni-nest';
 
 @ApiTags('角色管理')
-@Controller('user')
+@Controller('role')
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
