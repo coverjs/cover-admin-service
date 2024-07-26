@@ -21,7 +21,7 @@ export class AccountController {
       type: AccountLoginVo
     }
   })
-  create(@Body() createAccountDto: AccountLoginDto) {
+  login(@Body() createAccountDto: AccountLoginDto) {
     return this.accountService.login(createAccountDto);
   }
 
