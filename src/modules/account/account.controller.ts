@@ -1,7 +1,7 @@
 import { Body, Controller } from '@nestjs/common';
 import { AccountService } from './account.service';
-import { AccountDto } from './dto/account.dto';
-import { ApiTags, Method, UniDefine } from 'uni-nest';
+import { AccountLoginDto, CurrentUserDto } from './dto/account.dto';
+import { ApiTags, Method, UniDefine, User } from 'uni-nest';
 import { AccountLoginVo } from './dto/account.vo';
 
 @ApiTags('账号管理')
@@ -15,13 +15,22 @@ export class AccountController {
     summary: '登录',
     isPublic: true,
     body: {
-      type: AccountDto
+      type: AccountLoginDto
     },
     response: {
       type: AccountLoginVo
     }
   })
-  create(@Body() createAccountDto: AccountDto) {
+  login(@Body() createAccountDto: AccountLoginDto) {
     return this.accountService.login(createAccountDto);
+  }
+
+  @UniDefine({
+    path: 'current',
+    summary: '获取当前用户信息',
+    method: Method.Get
+  })
+  getCurrentUser(@User() user: CurrentUserDto) {
+    return this.accountService.getCurrentUser(user);
   }
 }

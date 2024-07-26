@@ -7,16 +7,87 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  username String  @unique
-  password String
-  email    String? @unique
-  nickname String?
-  salt     String  @default("")
-  enable   Boolean @default(true)
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  email     String?  @unique
+  nickname  String?
+  salt      String   @default("")
+  role      Role     @relation(fields: [roleId], references: [id])
+  roleId    Int
+  enable    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("co_users")
+}
+
+model Role {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique @map("role_name")
+  description String?
+  user        User[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("co_roles")
+}
+
+// 角色&菜单中间表
+// model RoleRelationMenu {
+//   roleId    Int
+//   role      Role     @relation(fields: [roleId], references: [id])
+//   menuId    Int
+//   menu      Menu     @relation(fields: [menuId], references: [id])
+//   createdAt DateTime @default(now())
+
+//   @@id([roleId, menuId])
+//   @@map("co_role_relation_menu")
+// }
+
+model Menu {
+  id                     Int                      @id @default(autoincrement())
+  // 菜单名字
+  name                   String                   @unique @map("menu_name")
+  order                  Int?
+  parentId               Int?
+  icon                   String
+  // 组件路径
+  component              String
+  // 路由
+  path                   String
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  PermissionRelationMenu PermissionRelationMenu[]
+
+  @@map("co_menus")
+}
+
+model Permission {
+  id                     Int                      @id @default(autoincrement())
+  // 权限名字
+  name                   String                   @unique @map("permission_name")
+  des                    String?
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  PermissionRelationMenu PermissionRelationMenu[]
+
+  @@map("co_permissions")
+}
+
+// 角色&权限中间表
+model PermissionRelationMenu {
+  permissionId Int
+  permission   Permission @relation(fields: [permissionId], references: [id])
+  menuId       Int
+  menu         Menu       @relation(fields: [menuId], references: [id])
+  createdAt    DateTime   @default(now())
+
+  @@id([permissionId, menuId])
+  @@map("co_permission_relation_menu")
 }

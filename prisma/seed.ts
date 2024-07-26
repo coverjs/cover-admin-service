@@ -1,12 +1,12 @@
 import { PrismaClient } from '@prisma/client';
-import { User } from './seed-data';
+import { User, Role } from './seed-data';
 
 export const initDatabase = async () => {
   const prisma = new PrismaClient();
   // // 创建用户数据
-  await prisma.user.createMany({ data: User });
+  await prisma.user.createMany({ data: User, skipDuplicates: true });
   // // 创建角色数据
-  // await prisma.role.createMany({ data: seedData.Role, skipDuplicates: true });
+  await prisma.role.createMany({ data: Role, skipDuplicates: true });
   // // 创建菜单数据
   // await prisma.user.createMany({ data: seedData.User, skipDuplicates: true });
   // initData()
