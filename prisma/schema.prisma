@@ -18,7 +18,8 @@ model User {
   email     String?  @unique
   nickname  String?
   salt      String   @default("")
-  roles     Role[]
+  role      Role     @relation(fields: [roleId], references: [id])
+  roleId    Int
   enable    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -27,28 +28,27 @@ model User {
 }
 
 model Role {
-  id        Int                @id @default(autoincrement())
-  name      String             @unique @map("role_name")
-  userId    Int?
-  user      User?              @relation(fields: [userId], references: [id])
-  menus     RoleRelationMenu[]
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @updatedAt
+  id          Int      @id @default(autoincrement())
+  name        String   @unique @map("role_name")
+  description String?
+  user        User[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@map("co_roles")
 }
 
 // 角色&菜单中间表
-model RoleRelationMenu {
-  roleId    Int
-  role      Role     @relation(fields: [roleId], references: [id])
-  menuId    Int
-  menu      Menu     @relation(fields: [menuId], references: [id])
-  createdAt DateTime @default(now())
+// model RoleRelationMenu {
+//   roleId    Int
+//   role      Role     @relation(fields: [roleId], references: [id])
+//   menuId    Int
+//   menu      Menu     @relation(fields: [menuId], references: [id])
+//   createdAt DateTime @default(now())
 
-  @@id([roleId, menuId])
-  @@map("co_role_relation_menu")
-}
+//   @@id([roleId, menuId])
+//   @@map("co_role_relation_menu")
+// }
 
 model Menu {
   id                     Int                      @id @default(autoincrement())
@@ -61,7 +61,6 @@ model Menu {
   component              String
   // 路由
   path                   String
-  roles                  RoleRelationMenu[]
   createdAt              DateTime                 @default(now())
   updatedAt              DateTime                 @updatedAt
   PermissionRelationMenu PermissionRelationMenu[]

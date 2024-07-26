@@ -48,7 +48,10 @@ export class AccountService {
   async getCurrentUser(user: CurrentUserDto) {
     const { id } = user;
     const userInfo = await this.prismaService.user.findUnique({
-      where: { id }
+      where: { id },
+      include: {
+        role: true
+      }
     });
     return userInfo;
   }

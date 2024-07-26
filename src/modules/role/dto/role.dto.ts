@@ -7,4 +7,11 @@ export class CreateRoleDto {
     required: true
   })
   name: string;
+
+  @ApiProperty({
+    description: '角色描述',
+    example: '管理员权限',
+    required: false
+  })
+  desricption?: string;
 }

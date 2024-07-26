@@ -1,7 +1,6 @@
 import { Controller, Body, Param } from '@nestjs/common';
 import { RoleService } from './role.service';
-import { CreateRoleDto } from './dto/create-role.dto';
-import { UpdateRoleDto } from './dto/update-role.dto';
+import { CreateRoleDto } from './dto/role.dto';
 import { ApiTags, Method, UniDefine } from 'uni-nest';
 
 @ApiTags('角色管理')
@@ -35,18 +34,6 @@ export class RoleController {
   })
   findOne(@Param('id') id: string) {
     return this.roleService.findOne(+id);
-  }
-
-  @UniDefine({
-    summary: '更新角色',
-    method: Method.Patch,
-    path: '/:id',
-    body: {
-      type: UpdateRoleDto
-    }
-  })
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateRoleDto) {
-    return this.roleService.update(+id, updateUserDto);
   }
 
   @UniDefine({
