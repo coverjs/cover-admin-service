@@ -9,7 +9,10 @@ bootstrap(AppModule, {
     license: ['MIT']
   },
   appOptions: {
-    port: 1118
+    port: 1118,
+    cors: {
+      origin: '*'
+    }
   },
   beforeAppListen(app) {
     app.setGlobalPrefix('api');
