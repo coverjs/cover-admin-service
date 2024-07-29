@@ -1,21 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRoleDto } from './dto/role.dto';
 import { QueryRoleDto } from './dto/role.query.dto';
-import { PrismaClient } from '@prisma/client';
+// import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '@/common/prisma/prisma.service';
 import { BusinessException } from '../../common/exceptions/business.exceptions';
 
 @Injectable()
 export class RoleService {
-  constructor(private readonly prismaClient: PrismaClient) {}
+  constructor(private readonly prismaService: PrismaService) {}
   async create(createRoleDto: CreateRoleDto) {
     const { name } = createRoleDto;
-    const user = await this.prismaClient.role.findUnique({
+    const user = await this.prismaService.role.findUnique({
       where: {
         name
       }
     });
     user && BusinessException.throwCommonIncorrect('角色名称已存在');
-    await this.prismaClient.role.create({
+    await this.prismaService.role.create({
       data: createRoleDto
     })
     return null;
@@ -26,7 +27,7 @@ export class RoleService {
     const { pageNum, pageSize } = query;
     const skip = (pageNum - 1) * pageSize;
     const take = pageSize;
-    const results = await this.prismaClient.role.findMany({
+    const results = await this.prismaService.role.findMany({
       skip,
       take,
       orderBy: {
@@ -38,7 +39,7 @@ export class RoleService {
 
   async findOne(id: number) {
     !id && BusinessException.throwCommonIncorrect('角色ID不能为空');
-    const user = await this.prismaClient.role.findUnique({
+    const user = await this.prismaService.role.findUnique({
       where: {
         id
       }
@@ -48,7 +49,7 @@ export class RoleService {
 
   async remove(id: number) {
     !id && BusinessException.throwCommonIncorrect('角色ID不能为空');
-    await this.prismaClient.role.delete({
+    await this.prismaService.role.delete({
       where: {
         id
       }
