@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { AccountLoginDto, CurrentUserDto } from './dto/account.dto';
-import { ConfigService } from '@nestjs/config';
+import { encryptPassword } from 'uni-nest';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { AccountLoginDto, CurrentUserDto } from './dto/account.dto';
 import { JWT_SECRET_ENV_KEY, TOKEN_EXPIRES_ENV_KEY } from '../../constants';
 import { PrismaService } from '../../common/prisma/prisma.service';
-import { encryptPassword } from 'uni-nest';
 import { BusinessException } from '../../common/exceptions/business.exceptions';
 
 @Injectable()
@@ -49,9 +49,7 @@ export class AccountService {
     const { id } = user;
     const userInfo = await this.prismaService.user.findUnique({
       where: { id },
-      include: {
-        role: true
-      }
+      include: { role: true }
     });
     return userInfo;
   }
