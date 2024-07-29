@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRoleDto } from './dto/role.dto';
 import { QueryRoleDto } from './dto/role.query.dto';
-// import { PrismaClient } from '@prisma/client';
+import { SetPermissionsDto } from './dto/role.permisssions.dto';
 import { PrismaService } from '@/common/prisma/prisma.service';
 import { BusinessException } from '../../common/exceptions/business.exceptions';
 
@@ -54,6 +54,31 @@ export class RoleService {
         id
       }
     });
+    return null
+  }
+  async setPermissions(setPermissionsDto: SetPermissionsDto) {
+    const { roleId, permissionIds } = setPermissionsDto
+    !roleId && BusinessException.throwCommonIncorrect('角色id不能为空');
+    const role = await this.prismaService.role.findUnique({
+      where: {
+        id: roleId,
+      }
+    })
+    !role && BusinessException.throwCommonIncorrect('角色不存在');
+    const permissions = await this.prismaService.permission.findMany({
+      where: {
+        id: {in:(permissionIds)},
+      },
+    })
+    console.log(permissions, 'permissions')
+    // await this.prismaService.role.update({
+    //   where: { id: roleId },
+    //   data: {
+    //     permissions: permissions,
+    //   },
+    // })
+
+
     return null
   }
 }

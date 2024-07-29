@@ -1,6 +1,7 @@
 import { Controller, Body, Param, Query } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/role.dto';
+import { SetPermissionsDto } from './dto/role.permisssions.dto';
 import { QueryRoleDto } from './dto/role.query.dto';
 import { ApiTags, Method, UniDefine } from 'uni-nest';
 
@@ -47,5 +48,14 @@ export class RoleController {
   })
   remove(@Param('id') id: string) {
     return this.roleService.remove(+id);
+  }
+
+  @UniDefine({
+    summary: '设置权限(菜单,按钮)',
+    method: Method.Post,
+    path: '/setPremissions'
+  })
+  setPermissions(@Param() setPermissionsDto: SetPermissionsDto) {
+    return this.roleService.setPermissions(setPermissionsDto);
   }
 }
