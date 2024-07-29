@@ -1,6 +1,7 @@
-import { Controller, Body, Param } from '@nestjs/common';
+import { Controller, Body, Param, Query } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/role.dto';
+import { QueryRoleDto } from './dto/role.query.dto';
 import { ApiTags, Method, UniDefine } from 'uni-nest';
 
 @ApiTags('角色管理')
@@ -21,10 +22,13 @@ export class RoleController {
 
   @UniDefine({
     summary: '查询所有角色',
-    method: Method.Get
+    method: Method.Get,
+    body: {
+      type: QueryRoleDto
+    }
   })
-  findAll() {
-    return this.roleService.findAll();
+  findAll(@Query() query: QueryRoleDto) {
+    return this.roleService.findAll(query);
   }
 
   @UniDefine({
