@@ -46,5 +46,5 @@ export class CreatePermissionDto {
   @ApiProperty({
     description: '描述'
   })
-  des: string;
+  description: string;
 }
