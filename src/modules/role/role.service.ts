@@ -89,7 +89,7 @@ export class RoleService {
         id: { in: permissionIds }
       }
     });
-    // !permissions?.length &&  new BadRequestException('未查询到权限');
+    // !permissions?.length &&  throw new BadRequestException('未查询到权限');
     !permissions?.length &&  BusinessException.throwCommonIncorrect('未查询到权限');
     await this.prismaService.role.update({
       where: { id: roleId },
