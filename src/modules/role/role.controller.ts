@@ -13,6 +13,7 @@ export class RoleController {
   @UniDefine({
     summary: '创建角色',
     method: Method.Post,
+    path: '/create',
     body: {
       type: CreateRoleDto
     }
@@ -24,6 +25,7 @@ export class RoleController {
   @UniDefine({
     summary: '查询所有角色',
     method: Method.Get,
+    path: '/list',
     body: {
       type: QueryRoleDto
     }
@@ -53,9 +55,12 @@ export class RoleController {
   @UniDefine({
     summary: '设置权限(菜单,按钮)',
     method: Method.Post,
-    path: '/setPremissions'
+    path: '/setPremissions',
+    body: {
+      type: SetPermissionsDto
+    }
   })
-  setPermissions(@Param() setPermissionsDto: SetPermissionsDto) {
+  setPermissions(@Body() setPermissionsDto: SetPermissionsDto) {
     return this.roleService.setPermissions(setPermissionsDto);
   }
 }

@@ -68,9 +68,9 @@ model Permission {
 // 角色&权限中间表
 model PermissionRelationRole {
   permissionId Int
-  permission   Permission @relation(fields: [permissionId], references: [id])
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
   roleId       Int
-  role         Role       @relation(fields: [roleId], references: [id])
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
   createdAt    DateTime   @default(now())
 
   @@id([permissionId, roleId])
