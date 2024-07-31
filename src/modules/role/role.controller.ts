@@ -1,6 +1,7 @@
 import { Controller, Body, Param, Query } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/role.dto';
+import { SetPermissionsDto } from './dto/role.permisssions.dto';
 import { QueryRoleDto } from './dto/role.query.dto';
 import { ApiTags, Method, UniDefine } from 'uni-nest';
 
@@ -12,6 +13,7 @@ export class RoleController {
   @UniDefine({
     summary: '创建角色',
     method: Method.Post,
+    path: '/create',
     body: {
       type: CreateRoleDto
     }
@@ -23,6 +25,7 @@ export class RoleController {
   @UniDefine({
     summary: '查询所有角色',
     method: Method.Get,
+    path: '/list',
     body: {
       type: QueryRoleDto
     }
@@ -47,5 +50,17 @@ export class RoleController {
   })
   remove(@Param('id') id: string) {
     return this.roleService.remove(+id);
+  }
+
+  @UniDefine({
+    summary: '设置权限(菜单,按钮)',
+    method: Method.Post,
+    path: '/setPremissions',
+    body: {
+      type: SetPermissionsDto
+    }
+  })
+  setPermissions(@Body() setPermissionsDto: SetPermissionsDto) {
+    return this.roleService.setPermissions(setPermissionsDto);
   }
 }

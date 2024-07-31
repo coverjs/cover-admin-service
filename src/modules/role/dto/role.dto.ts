@@ -13,5 +13,5 @@ export class CreateRoleDto {
     example: '管理员权限',
     required: false
   })
-  desricption?: string;
+  description?: string;
 }
