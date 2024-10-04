@@ -49,6 +49,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
+            proxy_on
             mkdir -p /${{secrets.SSH_USERNAME}}/Projects/cover-admin-service/
             rm -rf /${{secrets.SSH_USERNAME}}/Projects/cover-admin-service/*
             cp -rf /${{secrets.SSH_USERNAME}}/Projects/.cover-admin-service_temp/*  /${{secrets.SSH_USERNAME}}/Projects/cover-admin-service/
