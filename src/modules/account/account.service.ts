@@ -6,7 +6,6 @@ import { AccountLoginDto, CurrentUserDto } from './dto/account.dto';
 import { JWT_SECRET_ENV_KEY, TOKEN_EXPIRES_ENV_KEY } from '../../constants';
 import { PrismaService } from '../../common/prisma/prisma.service';
 import { BusinessException } from '../../common/exceptions/business.exceptions';
-
 @Injectable()
 export class AccountService {
   constructor(
