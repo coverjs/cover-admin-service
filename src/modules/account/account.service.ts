@@ -3,7 +3,6 @@ import { encryptPassword } from 'uni-nest';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { AccountLoginDto, CurrentUserDto } from './dto/account.dto';
-import { JWT_SECRET_ENV_KEY, TOKEN_EXPIRES_ENV_KEY } from '../../constants';
 import { PrismaService } from '../../common/prisma/prisma.service';
 import { BusinessException } from '../../common/exceptions/business.exceptions';
 @Injectable()
@@ -12,7 +11,7 @@ export class AccountService {
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
     private readonly prismaService: PrismaService
-  ) {}
+  ) { }
 
   /**
    * 登录
@@ -30,8 +29,8 @@ export class AccountService {
       const token = this.jwtService.sign(
         { id, username },
         {
-          secret: this.configService.get(JWT_SECRET_ENV_KEY),
-          expiresIn: this.configService.get(TOKEN_EXPIRES_ENV_KEY)
+          secret: this.configService.get('JWT_SECRET_ENV_KEY'),
+          expiresIn: this.configService.get('TOKEN_EXPIRES_ENV_KEY')
         }
       );
       return { token };
