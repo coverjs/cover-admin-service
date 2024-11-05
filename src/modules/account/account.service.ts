@@ -11,7 +11,7 @@ export class AccountService {
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
     private readonly prismaService: PrismaService
-  ) { }
+  ) {}
 
   /**
    * 登录
@@ -29,8 +29,8 @@ export class AccountService {
       const token = this.jwtService.sign(
         { id, username },
         {
-          secret: this.configService.get('JWT_SECRET_ENV_KEY'),
-          expiresIn: this.configService.get('TOKEN_EXPIRES_ENV_KEY')
+          secret: this.configService.get('JWT_SECRET'),
+          expiresIn: this.configService.get('TOKEN_EXPIRES')
         }
       );
       return { token };
