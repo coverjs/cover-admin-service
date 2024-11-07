@@ -28,7 +28,8 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - name: 生成.env文件
-        run: echo "${{secrets.PROD_ENV}}">.env
+        run: |
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
       - name: 项目打包构建
         env:
           NODE_OPTIONS: --max_old_space_size=4096
