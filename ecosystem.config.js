@@ -1,9 +1,8 @@
 module.exports = {
   apps: [
     {
-      name: 'cover-admin-service',
-      script: 'dist/main.js',
-      watch: '.'
+      name: 'cover-admin-nestjs',
+      script: './dist/main.js'
     }
   ]
 };

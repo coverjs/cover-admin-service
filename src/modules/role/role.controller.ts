@@ -1,51 +1,44 @@
-import { Controller, Body, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { RoleService } from './role.service';
-import { CreateRoleDto } from './dto/role.dto';
-import { QueryRoleDto } from './dto/role.query.dto';
-import { ApiTags, Method, UniDefine } from 'uni-nest';
-
+import { CreateRoleDto, RoleListDto } from './dto/role.dto';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CommonApiResponse } from '@/common/decorators/apiResponse';
+import { PaginationPipe } from '@/common/pipes/pagination.pipe';
+import { RoleVo } from './dto/role.vo';
 @ApiTags('角色管理')
 @Controller('role')
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
-  @UniDefine({
-    summary: '创建角色',
-    method: Method.Post,
-    body: {
-      type: CreateRoleDto
-    }
-  })
+  @Post()
+  @ApiOperation({ summary: '新建角色' })
+  @CommonApiResponse()
   create(@Body() createRoleDto: CreateRoleDto) {
     return this.roleService.create(createRoleDto);
   }
 
-  @UniDefine({
-    summary: '查询所有角色',
-    method: Method.Get,
-    body: {
-      type: QueryRoleDto
-    }
+  @Get()
+  @ApiOperation({ summary: '获取角色列表' })
+  @CommonApiResponse({
+    type: 'list',
+    itemType: RoleVo
   })
-  findAll(@Query() query: QueryRoleDto) {
-    return this.roleService.findAll(query);
+  fineList(@Query(PaginationPipe) queryRoleList: RoleListDto) {
+    return this.roleService.findList(queryRoleList);
   }
 
-  @UniDefine({
-    summary: '查询单个角色',
-    method: Method.Get,
-    path: '/:id'
-  })
-  findOne(@Param('id') id: string) {
-    return this.roleService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.roleService.findOne(+id);
+  // }
 
-  @UniDefine({
-    summary: '删除角色',
-    method: Method.Delete,
-    path: '/:id'
-  })
-  remove(@Param('id') id: string) {
-    return this.roleService.remove(+id);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto) {
+  //   return this.roleService.update(+id, updateRoleDto);
+  // }
+
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.roleService.remove(+id);
+  // }
 }

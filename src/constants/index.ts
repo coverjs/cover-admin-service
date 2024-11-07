@@ -1,2 +1,0 @@
-export const JWT_SECRET_ENV_KEY = 'JWT_SECRET';
-export const TOKEN_EXPIRES_ENV_KEY = 'TOKEN_EXPIRES';

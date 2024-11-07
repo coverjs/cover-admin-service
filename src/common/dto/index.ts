@@ -1,1 +1,2 @@
-export * from './page.dto'
+export * from './common.vo';
+export * from './pagination.dto';

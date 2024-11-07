@@ -14,6 +14,7 @@ lerna-debug.log*
 
 # OS
 .DS_Store
+
 # Tests
 /coverage
 /.nyc_output
@@ -53,5 +54,4 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-prisma/migrations
-prisma/dev.db*
+.env.production

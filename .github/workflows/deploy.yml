@@ -27,8 +27,14 @@ jobs:
         env:
           NODE_OPTIONS: --max_old_space_size=4096
         run: |
-          pnpm db:pg
+          pnpm db:g
           pnpm build
+
+      - name: 读取环境变量
+        run: echo "${{ secrets.PROD_ENV }}" > .env
+
+      - name: Apply all pending migrations to the database
+        run: pnpm db:deploy
 
       - name: 移动产物至到服务器
         uses: appleboy/scp-action@master
@@ -36,7 +42,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: 'dist,prisma,package.json,pnpm-lock.yaml,ecosystem.config.js,tsconfig.json'
+          source: 'dist,prisma,package.json,pnpm-lock.yaml,ecosystem.config.js,tsconfig.json,.env'
           target: '/${{secrets.SSH_USERNAME}}/Projects/.cover-admin-service_temp/'
           rm: true
 
@@ -51,9 +57,7 @@ jobs:
             rm -rf /${{secrets.SSH_USERNAME}}/Projects/cover-admin-service/*
             cp -rf /${{secrets.SSH_USERNAME}}/Projects/.cover-admin-service_temp/*  /${{secrets.SSH_USERNAME}}/Projects/cover-admin-service/
             cd /${{secrets.SSH_USERNAME}}/Projects/cover-admin-service/
-            echo "${{ secrets.PROD_ENV }}" > .env
             pnpm install
-            pnpm db:pg
             pm2 restart ./ecosystem.config.js
 
       - run: echo "部署完成！"
