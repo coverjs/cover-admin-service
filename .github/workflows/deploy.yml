@@ -1,7 +1,7 @@
 name: DeployService
 on:
   push: # 监听调用时机为push事件
-    branches: ['main']
+    branches: ['main', 'ci']
 jobs:
   build:
     runs-on: ubuntu-latest # runs-on 指定job任务运行所需要的虚拟机环境(必填字段)
@@ -23,13 +23,6 @@ jobs:
       - name: 项目安装依赖
         run: pnpm install --no-frozen-lockfile
 
-      - name: Apply all pending migrations to the database
-        run: npx prisma migrate deploy
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      - name: 生成.env文件
-        run: |
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
       - name: 项目打包构建
         env:
           NODE_OPTIONS: --max_old_space_size=4096
@@ -43,7 +36,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: 'dist,prisma,package.json,pnpm-lock.yaml,ecosystem.config.js,tsconfig.json,.env'
+          source: 'dist,prisma,package.json,pnpm-lock.yaml,ecosystem.config.js,tsconfig.json'
           target: '/${{secrets.SSH_USERNAME}}/Projects/.cover-admin-service_temp/'
           rm: true
 
@@ -58,8 +51,12 @@ jobs:
             rm -rf /${{secrets.SSH_USERNAME}}/Projects/cover-admin-service/*
             cp -rf /${{secrets.SSH_USERNAME}}/Projects/.cover-admin-service_temp/*  /${{secrets.SSH_USERNAME}}/Projects/cover-admin-service/
             cd /${{secrets.SSH_USERNAME}}/Projects/cover-admin-service/
-            echo ${{secrets.PROD_ENV}}
+            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
+            echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+            echo "TOKEN_EXPIRES=${{ secrets.TOKEN_EXPIRES }}" >> .env
+            echo "PORT=${{ secrets.PORT }}" >> .env
             pnpm install
+            npx prisma migrate deploy
             pnpm db:g
             pm2 restart ./ecosystem.config.js
 
