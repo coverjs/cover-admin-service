@@ -58,6 +58,7 @@ jobs:
             cd /${{secrets.SSH_USERNAME}}/Projects/cover-admin-service/
             echo "${{ secrets.PROD_ENV }}" > .env
             pnpm install
+            pnpm db:g
             pm2 restart ./ecosystem.config.js
 
       - run: echo "部署完成！"
