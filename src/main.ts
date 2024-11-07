@@ -5,10 +5,10 @@ import { loadSwagger } from './utils/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors();
+
   // load swagger docs
   loadSwagger(app);
-
-  app.enableCors();
 
   await app.listen(process.env.PORT ?? 3000);
 }
