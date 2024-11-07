@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUploadDto } from './dto/create-upload.dto';
-import { UpdateUploadDto } from './dto/update-upload.dto';
 
 @Injectable()
 export class UploadService {
-  create(createUploadDto: CreateUploadDto) {
+  create() {
     return 'This action adds a new upload';
   }
 
@@ -16,7 +14,7 @@ export class UploadService {
     return `This action returns a #${id} upload`;
   }
 
-  update(id: number, updateUploadDto: UpdateUploadDto) {
+  update(id: number) {
     return `This action updates a #${id} upload`;
   }
 

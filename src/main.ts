@@ -1,23 +1,15 @@
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { bootstrap } from 'uni-nest';
+import { loadSwagger } from './utils/swagger';
 
-bootstrap(AppModule, {
-  swaggerOptions: {
-    title: 'Cover Admin',
-    description: 'Cover Admin 接口文档',
-    version: '1.0.0',
-    license: ['MIT']
-  },
-  appOptions: {
-    port: 1118,
-    cors: {
-      origin: '*'
-    }
-  },
-  beforeAppListen(app) {
-    app.setGlobalPrefix('api');
-  },
-  jwtVerifyOptions: {
-    secret: process.env.JWT_SECRET
-  }
-});
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  // load swagger docs
+  loadSwagger(app);
+
+  app.enableCors();
+
+  await app.listen(process.env.PORT ?? 3000);
+}
+bootstrap();

@@ -1,4 +1,4 @@
-import { encryptPassword } from 'uni-nest';
+import { encryptPassword } from './cryptogram';
 
 export const User = [
   {
