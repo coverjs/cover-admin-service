@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Param } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { CreateRoleDto, RoleListDto } from './dto/role.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -27,10 +27,13 @@ export class RoleController {
     return this.roleService.findList(queryRoleList);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.roleService.findOne(+id);
-  // }
+  @Get(':id')
+  @ApiOperation({ summary: '根据id查询角色信息' })
+  @CommonApiResponse({ type: RoleVo })
+  findOne(@Param('id') id: string) {
+    console.log(+id);
+    // return this.roleService.findOne(+id);
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto) {
