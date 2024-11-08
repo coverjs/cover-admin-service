@@ -10,6 +10,6 @@ async function bootstrap() {
   // load swagger docs
   loadSwagger(app);
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 1118);
 }
 bootstrap();
