@@ -21,9 +21,10 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "db:g": "prisma generate",
     "db:m": "prisma migrate dev --name cover_dev",
-    "db:deploy": "prisma migrate deploy",
     "db:s": "prisma studio",
-    "db:seed": "prisma db seed"
+    "db:seed": "prisma db seed",
+    "db:reset": "prisma migrate reset",
+    "db:deploy": "prisma migrate deploy"
   },
   "dependencies": {
     "@nestjs/axios": "^3.1.1",
