@@ -7,7 +7,7 @@ import { ResponseInterceptor } from './common/interceptor';
 import { AuthModule } from './modules/auth/auth.module';
 import { PrismaModule } from './common/prisma/prisma.module';
 import { UserModule } from './modules/user/user.module';
-import { RoleModule } from './modules/role/role.module';
+import { RoleModule } from './modules/system/role/role.module';
 import { UploadModule } from './modules/upload/upload.module';
 import { ProfileModule } from './modules/profile/profile.module';
 
