@@ -6,7 +6,7 @@ import { BaseExceptionsFilter, HttpExeptionsFilter } from './common/exceptions';
 import { ResponseInterceptor } from './common/interceptor';
 import { AuthModule } from './modules/auth/auth.module';
 import { PrismaModule } from './common/prisma/prisma.module';
-import { UserModule } from './modules/user/user.module';
+import { UserModule } from './modules/system/user/user.module';
 import { RoleModule } from './modules/system/role/role.module';
 import { UploadModule } from './modules/upload/upload.module';
 import { ProfileModule } from './modules/profile/profile.module';
@@ -16,11 +16,11 @@ import { ProfileModule } from './modules/profile/profile.module';
     // 根据环境加载不同环境变量
     ConfigModule.forRoot({ isGlobal: true }),
     PrismaModule,
-    UploadModule,
     AuthModule,
+    ProfileModule,
     UserModule,
     RoleModule,
-    ProfileModule
+    UploadModule
   ],
   providers: [
     // jwt 校验守卫
